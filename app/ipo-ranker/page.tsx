@@ -75,15 +75,15 @@ function RankCard({ entry }: { entry: IpoEntry }) {
           <span className="text-green-400 font-medium">
             ↑ {(entry.changeIndexPercentPastDay ?? 0).toFixed(1)}% index/day
           </span>
-          <span>Vol {formatVolume(entry.volumePastDay)}</span>
-          <span>OI {formatVolume(entry.openInterest)}</span>
+          <span>Vol {formatVolume(entry.volumePastDay ?? 0)}</span>
+          <span>OI {formatVolume(entry.openInterest ?? 0)}</span>
         </div>
       </div>
 
       {/* Score */}
       <div className="shrink-0 text-right">
         <div className={`text-2xl font-black leading-none ${s.score}`}>
-          {entry.ipoScore.toFixed(0)}
+          {(entry.ipoScore ?? 0).toFixed(0)}
         </div>
         <div className="mt-0.5 text-[9px] uppercase tracking-widest text-zinc-600">
           IPO Score
