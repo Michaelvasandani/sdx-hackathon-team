@@ -54,12 +54,12 @@ function scoreMarkets(markets: Market[]): IpoEntry[] {
   const volumes = candidates.map((m) => m.volumePastDay);
   const discoveries = candidates.map((m) => 1 / (m.openInterest + 1));
 
-  const minV = Math.min(...velocities);
-  const maxV = Math.max(...velocities);
-  const minVol = Math.min(...volumes);
-  const maxVol = Math.max(...volumes);
-  const minD = Math.min(...discoveries);
-  const maxD = Math.max(...discoveries);
+  const minV = velocities.reduce((a, b) => Math.min(a, b));
+  const maxV = velocities.reduce((a, b) => Math.max(a, b));
+  const minVol = volumes.reduce((a, b) => Math.min(a, b));
+  const maxVol = volumes.reduce((a, b) => Math.max(a, b));
+  const minD = discoveries.reduce((a, b) => Math.min(a, b));
+  const maxD = discoveries.reduce((a, b) => Math.max(a, b));
 
   // Threshold for "undiscovered" label: bottom 25% of open interest
   const sortedOI = [...candidates.map((m) => m.openInterest)].sort(
@@ -74,16 +74,18 @@ function scoreMarkets(markets: Market[]): IpoEntry[] {
     const ipoScore =
       velocityScore * 0.6 + volumeScore * 0.2 + discoveryScore * 0.2;
 
+    const roundedScore = Math.round(ipoScore * 10) / 10;
+
     return {
       ticker: m.ticker,
       name: m.name,
-      ipoScore: Math.round(ipoScore * 10) / 10,
-      stage: getStage(ipoScore),
+      ipoScore: roundedScore,
+      stage: getStage(roundedScore),
       changeIndexPercentPastDay:
         m.changeIndexPercentPastDay ?? m.changePercentPastDay,
       volumePastDay: m.volumePastDay,
       openInterest: m.openInterest,
-      undiscovered: m.openInterest <= oiP25,
+      undiscovered: candidates.length > 1 && m.openInterest <= oiP25,
       breakdown: {
         velocityScore: Math.round(velocityScore * 10) / 10,
         volumeScore: Math.round(volumeScore * 10) / 10,
