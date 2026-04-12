@@ -1,36 +1,7 @@
+import { listMarkets } from "@/lib/forum";
+import { scoreMarkets, type IpoEntry } from "@/lib/ipo-scorer";
+
 export const dynamic = "force-dynamic";
-
-interface IpoEntry {
-  rank: number;
-  ticker: string;
-  name: string;
-  ipoScore: number;
-  stage: "PRE-IPO" | "SERIES B" | "SERIES A" | "SEED";
-  changeIndexPercentPastDay: number;
-  volumePastDay: number;
-  openInterest: number;
-  undiscovered: boolean;
-  breakdown: {
-    velocityScore: number;
-    volumeScore: number;
-    discoveryScore: number;
-  };
-}
-
-interface ApiResponse {
-  updatedAt: string;
-  markets: IpoEntry[];
-  error?: string;
-}
-
-async function getRanking(): Promise<ApiResponse> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/api/ipo-ranker`,
-    { cache: "no-store" }
-  );
-  if (!res.ok) return { updatedAt: new Date().toISOString(), markets: [], error: "Failed to load" };
-  return res.json();
-}
 
 const STAGE_STYLES: Record<IpoEntry["stage"], { badge: string; score: string; border: string }> = {
   "PRE-IPO":  { badge: "bg-green-900/40 text-green-400",   score: "text-green-400",  border: "border-green-500/20" },
@@ -94,7 +65,16 @@ function RankCard({ entry }: { entry: IpoEntry }) {
 }
 
 export default async function IpoRankerPage() {
-  const { updatedAt, markets, error } = await getRanking();
+  let markets: IpoEntry[] = [];
+  let updatedAt = new Date().toISOString();
+  let error: string | undefined;
+
+  try {
+    const allMarkets = await listMarkets();
+    markets = scoreMarkets(allMarkets);
+  } catch {
+    error = "Failed to load market data";
+  }
 
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-10 text-white">
