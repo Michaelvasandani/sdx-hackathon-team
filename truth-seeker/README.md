@@ -21,11 +21,20 @@ Truth Seeker is an AI-powered integrity monitoring system that detects fraud and
 5. **Funding Rate Anomalies (10% weight)**: Spots unnatural market positioning
 6. **Cross-Market Correlation (5% weight)**: Identifies isolated manipulation
 
-### 3. AI Investigation Agent
-- Powered by OpenAI GPT-4
-- Explains fraud detection results in natural language
-- Answers questions about market integrity
-- Provides actionable trading insights
+### 3. **Autonomous Detective Agent** 🕵️ **[NEW - ACTUALLY AN AGENT!]**
+- **Fully autonomous**: Runs continuously, investigating markets without human input
+- **LLM-powered reasoning**: GPT-4 decides what to investigate and which tools to use
+- **Live investigation stream**: Watch the agent think, gather evidence, and reach conclusions in real-time
+- **Tool orchestration**: Agent calls 6 investigation tools (scan markets, analyze orderbook, check trades, compare related markets, etc.)
+- **Evidence synthesis**: Combines multiple data sources to detect sophisticated fraud patterns
+- **Actionable conclusions**: Provides fraud alerts with confidence levels and recommendations
+
+**Why this is a real agent:**
+- ✅ Autonomy: Runs investigation loops without prompts
+- ✅ Decision-making: LLM chooses which markets and tools to investigate
+- ✅ Tool use: Calls functions to gather evidence dynamically
+- ✅ Reasoning: Synthesizes findings into fraud conclusions
+- ✅ Action: Generates alerts and recommendations
 
 ### 4. Detailed Market Analysis
 - Individual market pages with full fraud breakdown
@@ -48,6 +57,14 @@ Truth Seeker is an AI-powered integrity monitoring system that detects fraud and
 - **Active Alerts**: Detailed list of detected fraud
 - **Score Breakdown**: Mathematical explanation of how score is calculated
 - **AI Chat**: Ask the Investigation Agent questions about the market
+
+### Live Agent Investigation Page (`/agent`) 🕵️ **[NEW!]**
+- **Watch the agent work**: Real-time stream of detective agent's investigation
+- **See LLM reasoning**: Agent explains what it's thinking as it investigates
+- **Tool calls visible**: Watch agent decide which tools to use and see the results
+- **Evidence gathering**: Agent synthesizes data from multiple sources
+- **Fraud conclusions**: Agent provides final findings with confidence levels
+- **Server-Sent Events**: Live updates streamed to browser as investigation progresses
 
 ### Fraud Demo Page (`/demo`) 🧪
 - **5 Pre-built Scenarios**: Healthy, Price Pump, Wash Trading, Multi-Signal, Extreme Fraud
