@@ -59,7 +59,7 @@ function RankCard({ entry }: { entry: IpoEntry }) {
 
       {/* Ticker + signals */}
       <div className="flex-1 min-w-0">
-        <div className="mb-1 flex items-center gap-2">
+        <div className="mb-0.5 flex items-center gap-2">
           <span className="truncate font-bold text-white">{entry.ticker}</span>
           <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${s.badge}`}>
             {entry.stage}
@@ -70,9 +70,10 @@ function RankCard({ entry }: { entry: IpoEntry }) {
             </span>
           )}
         </div>
+        <div className="mb-1 text-xs text-zinc-500 truncate">{entry.name}</div>
         <div className="flex gap-4 text-xs text-zinc-400">
           <span className="text-green-400 font-medium">
-            ↑ {entry.changeIndexPercentPastDay.toFixed(1)}% index/day
+            ↑ {(entry.changeIndexPercentPastDay ?? 0).toFixed(1)}% index/day
           </span>
           <span>Vol {formatVolume(entry.volumePastDay)}</span>
           <span>OI {formatVolume(entry.openInterest)}</span>
