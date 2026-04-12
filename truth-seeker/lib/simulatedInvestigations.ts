@@ -5,12 +5,29 @@
  * reasoning process, tool usage, and fraud detection capabilities
  */
 
+export interface FraudSignals {
+  price_index_divergence?: number;
+  spoofing_events?: number;
+  wash_trading_probability?: number;
+  bot_coordination_detected?: boolean;
+  funding_anomaly_score?: number;
+  correlation_break_score?: number;
+}
+
 export interface InvestigationStep {
   type: 'thought' | 'tool_call' | 'tool_result' | 'conclusion' | 'alert';
   delay: number; // milliseconds before showing this step
   content: string;
   data?: any;
   icon?: string;
+  // Progressive fraud signals - how signals evolve as investigation progresses
+  signals?: FraudSignals;
+  integrityScore?: number; // Current integrity score at this step
+  // Evidence-based visualization data for charts
+  visualizationData?: {
+    type: 'trade_pattern' | 'price_divergence' | 'spoofing_timeline' | 'order_book_heatmap';
+    [key: string]: any; // Flexible data structure for different visualization types
+  };
 }
 
 export interface SimulatedInvestigation {
@@ -63,6 +80,8 @@ export const washTradingInvestigation: SimulatedInvestigation = {
           { ticker: 'ELDEN_RING', score: 67, alerts: 1 },
         ],
       },
+      signals: {},
+      integrityScore: 100,
     },
     {
       type: 'thought',
@@ -94,6 +113,12 @@ export const washTradingInvestigation: SimulatedInvestigation = {
           bot_coordination_detected: true,
         },
       },
+      signals: {
+        price_index_divergence: 18,
+        wash_trading_probability: 0.35,
+        bot_coordination_detected: false,
+      },
+      integrityScore: 72,
     },
     {
       type: 'thought',
@@ -118,6 +143,33 @@ export const washTradingInvestigation: SimulatedInvestigation = {
         dominantSize: 3.5,
         dominantSizeCount: 127,
         analysis: '127 out of 174 trades (73%) were exactly 3.5 contracts',
+      },
+      signals: {
+        price_index_divergence: 18,
+        wash_trading_probability: 0.73,
+        bot_coordination_detected: false,
+      },
+      integrityScore: 48,
+      visualizationData: {
+        type: 'trade_pattern',
+        trades: [
+          // Generate 174 trades: 127 suspicious at 3.5, 47 varied sizes
+          ...Array.from({ length: 127 }, (_, i) => ({
+            time: `14:${String(Math.floor(i / 3)).padStart(2, '0')}:${String((i % 3) * 20).padStart(2, '0')}`,
+            size: 3.5,
+            suspicious: true,
+            tradeNumber: i + 1,
+          })),
+          ...Array.from({ length: 47 }, (_, i) => ({
+            time: `14:${String(Math.floor((127 + i) / 3)).padStart(2, '0')}:${String(((127 + i) % 3) * 20).padStart(2, '0')}`,
+            size: Number((Math.random() * 8 + 1).toFixed(1)), // 1-9 contracts
+            suspicious: false,
+            tradeNumber: 128 + i,
+          })),
+        ].sort((a, b) => a.tradeNumber - b.tradeNumber),
+        dominantSize: 3.5,
+        suspiciousCount: 127,
+        totalCount: 174,
       },
     },
     {
@@ -167,6 +219,28 @@ export const washTradingInvestigation: SimulatedInvestigation = {
         suspiciousBidClusters: [{ price: 32.1, count: 7 }],
         suspiciousAskClusters: [],
         analysis: '7 bid orders clustered at exactly $32.10 - likely bot coordination',
+      },
+      signals: {
+        price_index_divergence: 18,
+        wash_trading_probability: 0.73,
+        bot_coordination_detected: true,
+        spoofing_events: 0,
+      },
+      integrityScore: 34,
+      visualizationData: {
+        type: 'order_book_heatmap',
+        levels: [
+          { price: 31.85, orderCount: 2, totalSize: 45, suspicious: false },
+          { price: 31.92, orderCount: 1, totalSize: 22, suspicious: false },
+          { price: 32.00, orderCount: 3, totalSize: 67, suspicious: false },
+          { price: 32.10, orderCount: 7, totalSize: 156, suspicious: true },
+          { price: 32.15, orderCount: 2, totalSize: 38, suspicious: false },
+          { price: 32.23, orderCount: 1, totalSize: 19, suspicious: false },
+          { price: 32.35, orderCount: 2, totalSize: 51, suspicious: false },
+        ],
+        suspiciousPrice: 32.10,
+        suspiciousCount: 7,
+        totalOrders: 18,
       },
     },
     {
@@ -299,6 +373,28 @@ export const spoofingInvestigation: SimulatedInvestigation = {
         priceChange: '+23%',
         volatility: '8.4%',
         analysis: 'Rapid price increase coinciding with spoofing activity',
+      },
+      visualizationData: {
+        type: 'spoofing_timeline',
+        events: [
+          { orderId: 'A1', placedTime: '14:23:10', canceledTime: '14:23:17', price: 47.23, size: 450, lifetimeSeconds: 7, suspicious: true },
+          { orderId: 'A2', placedTime: '14:24:05', canceledTime: '14:24:12', price: 47.23, size: 460, lifetimeSeconds: 7, suspicious: true },
+          { orderId: 'A3', placedTime: '14:25:33', canceledTime: '14:25:38', price: 47.23, size: 455, lifetimeSeconds: 5, suspicious: true },
+          { orderId: 'A4', placedTime: '14:27:12', canceledTime: '14:27:19', price: 47.23, size: 448, lifetimeSeconds: 7, suspicious: true },
+          { orderId: 'A5', placedTime: '14:29:45', canceledTime: '14:29:51', price: 47.23, size: 452, lifetimeSeconds: 6, suspicious: true },
+          { orderId: 'A6', placedTime: '14:31:20', canceledTime: '14:31:28', price: 47.23, size: 458, lifetimeSeconds: 8, suspicious: true },
+          { orderId: 'A7', placedTime: '14:33:08', canceledTime: '14:33:13', price: 47.23, size: 453, lifetimeSeconds: 5, suspicious: true },
+          { orderId: 'A8', placedTime: '14:35:55', canceledTime: '14:36:02', price: 47.23, size: 449, lifetimeSeconds: 7, suspicious: true },
+          { orderId: 'A9', placedTime: '14:38:30', canceledTime: '14:38:35', price: 47.23, size: 456, lifetimeSeconds: 5, suspicious: true },
+          { orderId: 'A10', placedTime: '14:41:15', canceledTime: '14:41:21', price: 47.23, size: 451, lifetimeSeconds: 6, suspicious: true },
+          { orderId: 'A11', placedTime: '14:44:02', canceledTime: '14:44:09', price: 47.23, size: 447, lifetimeSeconds: 7, suspicious: true },
+          { orderId: 'A12', placedTime: '14:47:38', canceledTime: '14:47:44', price: 47.23, size: 454, lifetimeSeconds: 6, suspicious: true },
+          { orderId: 'N1', placedTime: '14:26:00', canceledTime: '14:38:45', price: 47.15, size: 120, lifetimeSeconds: 765, suspicious: false },
+          { orderId: 'N2', placedTime: '14:30:15', canceledTime: '14:48:20', price: 47.18, size: 95, lifetimeSeconds: 1085, suspicious: false },
+        ],
+        totalEvents: 14,
+        suspiciousCount: 12,
+        avgLifetime: 6.3,
       },
     },
     {
@@ -453,6 +549,27 @@ export const multiSignalInvestigation: SimulatedInvestigation = {
         volatility: '12.7%',
         indexChange: '+6%',
         divergence: '25%',
+      },
+      visualizationData: {
+        type: 'price_divergence',
+        data: [
+          { hour: 0, time: '00:00', priceChange: 0, indexChange: 0, divergence: 0 },
+          { hour: 2, time: '02:00', priceChange: 2.1, indexChange: 0.8, divergence: 1.3 },
+          { hour: 4, time: '04:00', priceChange: 3.8, indexChange: 1.2, divergence: 2.6 },
+          { hour: 6, time: '06:00', priceChange: 6.5, indexChange: 1.9, divergence: 4.6 },
+          { hour: 8, time: '08:00', priceChange: 9.2, indexChange: 2.3, divergence: 6.9 },
+          { hour: 10, time: '10:00', priceChange: 13.1, indexChange: 2.8, divergence: 10.3 },
+          { hour: 12, time: '12:00', priceChange: 17.8, indexChange: 3.5, divergence: 14.3 },
+          { hour: 14, time: '14:00', priceChange: 21.5, indexChange: 4.1, divergence: 17.4 },
+          { hour: 16, time: '16:00', priceChange: 25.3, indexChange: 4.7, divergence: 20.6 },
+          { hour: 18, time: '18:00', priceChange: 27.9, indexChange: 5.2, divergence: 22.7 },
+          { hour: 20, time: '20:00', priceChange: 29.4, indexChange: 5.6, divergence: 23.8 },
+          { hour: 22, time: '22:00', priceChange: 30.2, indexChange: 5.8, divergence: 24.4 },
+          { hour: 24, time: '24:00', priceChange: 31.0, indexChange: 6.0, divergence: 25.0 },
+        ],
+        finalPriceChange: 31.0,
+        finalIndexChange: 6.0,
+        maxDivergence: 25.0,
       },
     },
     {

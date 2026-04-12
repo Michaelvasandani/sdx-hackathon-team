@@ -8,7 +8,11 @@
  */
 
 import { useEffect, useState, useRef } from 'react';
-import { SimulatedInvestigation, InvestigationStep } from '../lib/simulatedInvestigations';
+import { SimulatedInvestigation } from '../lib/simulatedInvestigations';
+import { TradePatternChart } from './evidence/TradePatternChart';
+import { PriceDivergenceEvidenceChart } from './evidence/PriceDivergenceEvidenceChart';
+import { SpoofingTimelineChart } from './evidence/SpoofingTimelineChart';
+import { OrderBookHeatmap } from './evidence/OrderBookHeatmap';
 
 interface InvestigationPlaybackProps {
   investigation: SimulatedInvestigation;
@@ -236,6 +240,45 @@ export function InvestigationPlayback({
                 <div className="text-sm text-zinc-900 dark:text-white whitespace-pre-wrap">
                   {step.content}
                 </div>
+
+                {/* Evidence-based visualizations */}
+                {step.visualizationData && (
+                  <div className="mt-4">
+                    {step.visualizationData.type === 'trade_pattern' && (
+                      <TradePatternChart
+                        trades={step.visualizationData.trades}
+                        dominantSize={step.visualizationData.dominantSize}
+                        suspiciousCount={step.visualizationData.suspiciousCount}
+                        totalCount={step.visualizationData.totalCount}
+                      />
+                    )}
+                    {step.visualizationData.type === 'price_divergence' && (
+                      <PriceDivergenceEvidenceChart
+                        data={step.visualizationData.data}
+                        finalPriceChange={step.visualizationData.finalPriceChange}
+                        finalIndexChange={step.visualizationData.finalIndexChange}
+                        maxDivergence={step.visualizationData.maxDivergence}
+                      />
+                    )}
+                    {step.visualizationData.type === 'spoofing_timeline' && (
+                      <SpoofingTimelineChart
+                        events={step.visualizationData.events}
+                        totalEvents={step.visualizationData.totalEvents}
+                        suspiciousCount={step.visualizationData.suspiciousCount}
+                        avgLifetime={step.visualizationData.avgLifetime}
+                      />
+                    )}
+                    {step.visualizationData.type === 'order_book_heatmap' && (
+                      <OrderBookHeatmap
+                        levels={step.visualizationData.levels}
+                        suspiciousPrice={step.visualizationData.suspiciousPrice}
+                        suspiciousCount={step.visualizationData.suspiciousCount}
+                        totalOrders={step.visualizationData.totalOrders}
+                      />
+                    )}
+                  </div>
+                )}
+
                 {step.data && step.type !== 'conclusion' && (
                   <details className="mt-3">
                     <summary className="text-xs font-medium text-zinc-500 dark:text-zinc-400 cursor-pointer hover:text-zinc-700 dark:hover:text-zinc-200">
