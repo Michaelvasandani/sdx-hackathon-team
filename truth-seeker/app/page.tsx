@@ -9,6 +9,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { MarketTable } from '../components/MarketTable';
+import { MarketDistributionChart } from '../components/MarketDistributionChart';
 
 interface FraudAlert {
   type: string;
@@ -230,6 +231,23 @@ export default function Dashboard() {
               <div className="mt-2 text-3xl font-bold text-zinc-900 dark:text-white">
                 {stats.totalAlerts}
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Market Distribution Charts */}
+        {data && data.results.length > 0 && (
+          <div className="mb-8 bg-white dark:bg-zinc-900 rounded-lg shadow-sm">
+            <div className="px-6 py-4 border-b border-zinc-200 dark:border-zinc-800">
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
+                📊 Market Overview
+              </h2>
+              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                Distribution of integrity scores and risk levels across all markets
+              </p>
+            </div>
+            <div className="p-6">
+              <MarketDistributionChart markets={data.results} />
             </div>
           </div>
         )}
