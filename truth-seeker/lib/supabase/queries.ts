@@ -55,6 +55,32 @@ export interface Trade {
   traded_at: string;
 }
 
+export interface SentimentVelocitySignal {
+  id: number;
+  ticker: string;
+  signal_type: 'price_acceleration' | 'index_acceleration' | 'momentum_divergence';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  confidence: number;
+  momentum_status: 'stable' | 'accelerating' | 'diverging' | 'critical';
+  momentum_score: number;
+  window: '5m' | '15m' | '1h';
+  evidence: any;
+  detected_at: string;
+}
+
+export interface VelocityAlert {
+  id: string;
+  ticker: string;
+  alert_type: 'price_acceleration' | 'index_acceleration' | 'momentum_divergence';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  confidence: number;
+  description: string | null;
+  evidence: any;
+  detected_at: string;
+  resolved_at: string | null;
+  resolution_notes: string | null;
+}
+
 // ============================================
 // QUERIES
 // ============================================
@@ -259,6 +285,117 @@ export async function storeTradeHistory(trades: Omit<Trade, 'id'>[]) {
 export async function resolveAlert(alertId: string, notes?: string) {
   const { error } = await supabase
     .from('fraud_alerts')
+    .update({
+      resolved_at: new Date().toISOString(),
+      resolution_notes: notes,
+    })
+    .eq('id', alertId);
+
+  if (error) throw error;
+}
+
+// ============================================
+// SENTIMENT VELOCITY QUERIES
+// ============================================
+
+export async function getLatestVelocitySignals(): Promise<SentimentVelocitySignal[]> {
+  const { data, error } = await supabase
+    .from('sentiment_velocity_signals')
+    .select('*')
+    .order('detected_at', { ascending: false })
+    .limit(500);
+
+  if (error) throw error;
+
+  // Deduplicate to get latest per ticker
+  const latestSignals = new Map<string, SentimentVelocitySignal>();
+  data?.forEach((signal) => {
+    const key = `${signal.ticker}-${signal.signal_type}-${signal.window}`;
+    if (!latestSignals.has(key)) {
+      latestSignals.set(key, signal);
+    }
+  });
+
+  return Array.from(latestSignals.values());
+}
+
+export async function getVelocitySignals(ticker: string, hours: number = 24): Promise<SentimentVelocitySignal[]> {
+  const since = new Date(Date.now() - hours * 60 * 60 * 1000).toISOString();
+
+  const { data, error } = await supabase
+    .from('sentiment_velocity_signals')
+    .select('*')
+    .eq('ticker', ticker)
+    .gte('detected_at', since)
+    .order('detected_at', { ascending: true });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function storeVelocitySignal(
+  ticker: string,
+  signalType: 'price_acceleration' | 'index_acceleration' | 'momentum_divergence',
+  severity: 'low' | 'medium' | 'high' | 'critical',
+  confidence: number,
+  momentumStatus: 'stable' | 'accelerating' | 'diverging' | 'critical',
+  momentumScore: number,
+  window: '5m' | '15m' | '1h',
+  evidence: any
+) {
+  const { error } = await supabase.from('sentiment_velocity_signals').insert({
+    ticker,
+    signal_type: signalType,
+    severity,
+    confidence,
+    momentum_status: momentumStatus,
+    momentum_score: momentumScore,
+    window,
+    evidence,
+  });
+
+  if (error) throw error;
+}
+
+export async function getActiveVelocityAlerts(ticker?: string): Promise<VelocityAlert[]> {
+  let query = supabase
+    .from('velocity_alerts')
+    .select('*')
+    .is('resolved_at', null);
+
+  if (ticker) {
+    query = query.eq('ticker', ticker);
+  }
+
+  const { data, error } = await query.order('detected_at', { ascending: false });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function storeVelocityAlert(
+  ticker: string,
+  alertType: 'price_acceleration' | 'index_acceleration' | 'momentum_divergence',
+  severity: 'low' | 'medium' | 'high' | 'critical',
+  confidence: number,
+  description: string,
+  evidence: any
+) {
+  const { error } = await supabase.from('velocity_alerts').insert({
+    ticker,
+    alert_type: alertType,
+    severity,
+    confidence,
+    description,
+    evidence,
+  });
+
+  if (error) throw error;
+}
+
+export async function resolveVelocityAlert(alertId: string, notes?: string) {
+  const { error } = await supabase
+    .from('velocity_alerts')
     .update({
       resolved_at: new Date().toISOString(),
       resolution_notes: notes,

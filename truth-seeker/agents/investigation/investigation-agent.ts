@@ -131,3 +131,118 @@ export async function investigateGeneralQuestion(userQuestion: string): Promise<
     );
   }
 }
+
+// ============================================
+// SENTIMENT VELOCITY INVESTIGATION
+// ============================================
+
+interface VelocityContext {
+  ticker: string;
+  name: string;
+  momentum_status: 'stable' | 'accelerating' | 'diverging' | 'critical';
+  momentum_score: number;
+  price_signals: Array<{
+    window: string;
+    severity: string;
+    confidence: number;
+    acceleration: number;
+  }>;
+  index_signals: Array<{
+    window: string;
+    severity: string;
+    confidence: number;
+    acceleration: number;
+  }>;
+  divergence_alerts: Array<{
+    severity: string;
+    window: string;
+    price_direction: string;
+    index_direction: string;
+  }>;
+}
+
+const VELOCITY_SYSTEM_PROMPT = `You are an expert market momentum analyst specializing in attention markets. Your role is to explain sentiment velocity patterns and momentum shifts in clear, accessible language.
+
+You analyze market momentum using:
+- Price Acceleration: How quickly the price velocity is changing (d²price/dt²)
+- Index Acceleration: How quickly attention index velocity is changing (d²index/dt²)
+- Momentum Divergence: When price momentum and index momentum move in opposite directions
+
+Momentum Status Levels:
+1. STABLE - Normal market conditions, no unusual acceleration
+2. ACCELERATING - Significant momentum detected (price or index), potential trend formation
+3. DIVERGING - Price and index momentum moving opposite directions (warning sign of disconnection)
+4. CRITICAL - Extreme momentum swings, likely manipulation or market shock
+
+When explaining momentum patterns:
+- Describe what's happening in plain language (e.g., "price is accelerating rapidly while attention is flat")
+- Explain what this typically means for price action and trader behavior
+- Highlight divergence as a potential red flag (price moving without cultural momentum)
+- Provide context on historical patterns (e.g., "this usually precedes price reversals")
+- Give actionable guidance (e.g., "monitor closely", "wait for confirmation", "increased volatility expected")
+
+Be concise, specific, and focused on trader decision-making.`;
+
+export async function investigateVelocity(
+  velocityContext: VelocityContext,
+  userQuestion: string
+): Promise<string> {
+  try {
+    const contextMessage = `Market Momentum Context:
+- Ticker: ${velocityContext.ticker} (${velocityContext.name})
+- Momentum Status: ${velocityContext.momentum_status.toUpperCase()}
+- Momentum Score: ${velocityContext.momentum_score.toFixed(0)}/100
+
+Price Acceleration Signals (Last 24h):
+${velocityContext.price_signals.length > 0
+  ? velocityContext.price_signals
+      .map(
+        (s) =>
+          `- ${s.window} Window: ${s.severity} severity (${s.confidence.toFixed(0)}% confidence), acceleration: ${s.acceleration.toFixed(4)}`
+      )
+      .join('\n')
+  : '- No significant price acceleration detected'
+}
+
+Index Acceleration Signals (Last 24h):
+${velocityContext.index_signals.length > 0
+  ? velocityContext.index_signals
+      .map(
+        (s) =>
+          `- ${s.window} Window: ${s.severity} severity (${s.confidence.toFixed(0)}% confidence), acceleration: ${s.acceleration.toFixed(4)}`
+      )
+      .join('\n')
+  : '- No significant index acceleration detected'
+}
+
+Momentum Divergence Alerts:
+${velocityContext.divergence_alerts.length > 0
+  ? velocityContext.divergence_alerts
+      .map(
+        (a) =>
+          `- ${a.window} Window: Price momentum ${a.price_direction} but Index momentum ${a.index_direction} (${a.severity} severity)`
+      )
+      .join('\n')
+  : '- No momentum divergence detected - price and index moving in sync'
+}
+
+User Question: ${userQuestion}`;
+
+    const completion = await openai.chat.completions.create({
+      model: process.env.OPENAI_MODEL || 'gpt-4',
+      messages: [
+        { role: 'system', content: VELOCITY_SYSTEM_PROMPT },
+        { role: 'user', content: contextMessage },
+      ],
+      temperature: 0.7,
+      max_tokens: 500,
+    });
+
+    return completion.choices[0]?.message?.content || 'Unable to generate momentum analysis';
+  } catch (error) {
+    console.error('Velocity investigation agent error:', error);
+    throw new Error(
+      error instanceof Error ? error.message : 'Failed to generate velocity analysis'
+    );
+  }
+}
