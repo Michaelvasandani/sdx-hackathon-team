@@ -63,27 +63,27 @@ export function DivergenceChart({
     if (active && payload && payload.length >= 2) {
       const data = payload[0].payload;
       return (
-        <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-3 shadow-lg">
-          <p className="font-semibold text-zinc-900 dark:text-white mb-2">
+        <div className="bg-[#0f0f0f] border-2 border-gray-600 p-3 shadow-lg">
+          <p className="font-semibold text-white mb-2 uppercase tracking-wide">
             {data.time}
           </p>
           <div className="space-y-1 text-sm">
             <div className="flex items-center justify-between gap-4">
-              <span className="text-blue-600 dark:text-blue-400">Price Change:</span>
-              <span className="font-mono font-bold text-blue-600 dark:text-blue-400">
+              <span className="text-blue-400">Price Change:</span>
+              <span className="font-mono font-bold text-blue-400">
                 {data.priceChange >= 0 ? '+' : ''}{data.priceChange.toFixed(2)}%
               </span>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-purple-600 dark:text-purple-400">Index Change:</span>
-              <span className="font-mono font-bold text-purple-600 dark:text-purple-400">
+              <span className="text-purple-400">Index Change:</span>
+              <span className="font-mono font-bold text-purple-400">
                 {data.indexChange >= 0 ? '+' : ''}{data.indexChange.toFixed(2)}%
               </span>
             </div>
-            <div className="pt-1 mt-1 border-t border-zinc-200 dark:border-zinc-700">
+            <div className="pt-1 mt-1 border-t border-gray-700">
               <div className="flex items-center justify-between gap-4">
-                <span className="text-zinc-600 dark:text-zinc-400">Divergence:</span>
-                <span className="font-mono font-bold text-orange-600 dark:text-orange-400">
+                <span className="text-gray-300">Divergence:</span>
+                <span className="font-mono font-bold text-orange-400">
                   {Math.abs(data.priceChange - data.indexChange).toFixed(2)}%
                 </span>
               </div>
@@ -103,14 +103,14 @@ export function DivergenceChart({
     <div className="w-full">
       {/* Alert Banner */}
       {isDivergent && (
-        <div className="mb-4 p-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
+        <div className="mb-4 p-3 bg-[#0f0f0f] border-2 border-orange-600">
           <div className="flex items-center gap-2">
             <span className="text-lg">⚠️</span>
             <div>
-              <p className="text-sm font-semibold text-orange-900 dark:text-orange-100">
+              <p className="text-sm font-semibold text-white uppercase tracking-wide">
                 Significant Divergence Detected
               </p>
-              <p className="text-xs text-orange-700 dark:text-orange-300">
+              <p className="text-xs text-gray-300">
                 Price changed {priceChange24h >= 0 ? '+' : ''}{priceChange24h.toFixed(1)}% while index changed {indexChange24h >= 0 ? '+' : ''}{indexChange24h.toFixed(1)}%
                 ({divergence.toFixed(1)}% divergence)
               </p>
@@ -126,20 +126,20 @@ export function DivergenceChart({
             data={data}
             margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" className="dark:stroke-zinc-700" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#404040" />
             <XAxis
               dataKey="time"
-              tick={{ fill: '#71717a', fontSize: 11 }}
+              tick={{ fill: '#ffffff', fontSize: 11 }}
               interval={4}
             />
             <YAxis
               yAxisId="left"
-              tick={{ fill: '#71717a', fontSize: 12 }}
+              tick={{ fill: '#ffffff', fontSize: 12 }}
               label={{
                 value: '% Change',
                 angle: -90,
                 position: 'insideLeft',
-                fill: '#71717a',
+                fill: '#ffffff',
               }}
             />
             <Tooltip content={<CustomTooltip />} />
@@ -150,7 +150,7 @@ export function DivergenceChart({
             />
 
             {/* Reference line at 0% */}
-            <ReferenceLine yAxisId="left" y={0} stroke="#71717a" strokeDasharray="3 3" />
+            <ReferenceLine yAxisId="left" y={0} stroke="#ffffff" strokeDasharray="3 3" />
 
             {/* Divergence threshold lines */}
             {isDivergent && (
@@ -197,21 +197,21 @@ export function DivergenceChart({
 
       {/* Summary Stats */}
       <div className="mt-4 grid grid-cols-3 gap-4">
-        <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-          <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">Price Change (24h)</div>
-          <div className="text-2xl font-bold text-blue-700 dark:text-blue-300 mt-1">
+        <div className="p-3 bg-black border-2 border-blue-600">
+          <div className="text-xs text-blue-400 font-medium uppercase tracking-wide">Price Change (24h)</div>
+          <div className="text-2xl font-bold text-blue-400 mt-1">
             {priceChange24h >= 0 ? '+' : ''}{priceChange24h.toFixed(2)}%
           </div>
         </div>
-        <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-          <div className="text-xs text-purple-600 dark:text-purple-400 font-medium">Index Change (24h)</div>
-          <div className="text-2xl font-bold text-purple-700 dark:text-purple-300 mt-1">
+        <div className="p-3 bg-black border-2 border-purple-600">
+          <div className="text-xs text-purple-400 font-medium uppercase tracking-wide">Index Change (24h)</div>
+          <div className="text-2xl font-bold text-purple-400 mt-1">
             {indexChange24h >= 0 ? '+' : ''}{indexChange24h.toFixed(2)}%
           </div>
         </div>
-        <div className="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-          <div className="text-xs text-orange-600 dark:text-orange-400 font-medium">Divergence</div>
-          <div className="text-2xl font-bold text-orange-700 dark:text-orange-300 mt-1">
+        <div className="p-3 bg-black border-2 border-orange-600">
+          <div className="text-xs text-orange-400 font-medium uppercase tracking-wide">Divergence</div>
+          <div className="text-2xl font-bold text-orange-400 mt-1">
             {divergence.toFixed(2)}%
           </div>
         </div>

@@ -104,48 +104,48 @@ export function InvestigationPlayback({
   const getStepBgColor = (type: string) => {
     switch (type) {
       case 'thought':
-        return 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800';
+        return 'bg-[#0f0f0f] border-2 border-blue-600';
       case 'tool_call':
-        return 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800';
+        return 'bg-[#0f0f0f] border-2 border-purple-600';
       case 'tool_result':
-        return 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800';
+        return 'bg-[#0f0f0f] border-2 border-green-600';
       case 'conclusion':
-        return 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800';
+        return 'bg-[#0f0f0f] border-2 border-yellow-600';
       case 'alert':
-        return 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800';
+        return 'bg-[#0f0f0f] border-2 border-red-600';
       default:
-        return 'bg-zinc-50 dark:bg-zinc-900/20 border-zinc-200 dark:border-zinc-800';
+        return 'bg-[#0f0f0f] border-2 border-gray-700';
     }
   };
 
   return (
     <div className="space-y-4">
       {/* Investigation Header */}
-      <div className="bg-white dark:bg-zinc-900 rounded-lg shadow-sm p-6 border border-zinc-200 dark:border-zinc-800">
+      <div className="bg-[#0f0f0f] p-6 border-2 border-gray-700">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="text-4xl">{investigation.emoji}</div>
             <div>
-              <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
+              <h3 className="text-lg font-bold text-white uppercase tracking-wide">
                 {investigation.name}
               </h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              <p className="text-sm text-gray-400">
                 {investigation.description}
               </p>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+            <div className="text-sm font-medium text-gray-400 uppercase tracking-wide">
               Final Score
             </div>
             <div className={`text-3xl font-bold ${
               investigation.finalScore >= 80
-                ? 'text-green-600'
+                ? 'text-green-400'
                 : investigation.finalScore >= 50
-                ? 'text-yellow-600'
+                ? 'text-yellow-400'
                 : investigation.finalScore >= 30
-                ? 'text-orange-600'
-                : 'text-red-600'
+                ? 'text-orange-400'
+                : 'text-red-400'
             }`}>
               {investigation.finalScore}
             </div>
@@ -155,16 +155,16 @@ export function InvestigationPlayback({
         {/* Progress Bar */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
               Progress
             </span>
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs text-gray-400">
               {currentStepIndex + 1} / {investigation.steps.length} steps
             </span>
           </div>
-          <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-2">
+          <div className="w-full bg-gray-700 h-2">
             <div
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              className="bg-blue-600 h-2 transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -175,25 +175,25 @@ export function InvestigationPlayback({
           {!isPlaying || isPaused ? (
             <button
               onClick={handlePlay}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors border border-blue-500 uppercase tracking-wide"
             >
               {currentStepIndex >= investigation.steps.length - 1 ? '↻ Replay' : '▶ Play'}
             </button>
           ) : (
             <button
               onClick={handlePause}
-              className="px-4 py-2 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 transition-colors"
+              className="px-4 py-2 bg-yellow-600 text-white text-sm font-medium hover:bg-yellow-700 transition-colors border border-yellow-500 uppercase tracking-wide"
             >
               ⏸ Pause
             </button>
           )}
           <button
             onClick={handleReset}
-            className="px-4 py-2 bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-white rounded-lg text-sm font-medium hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
+            className="px-4 py-2 bg-[#0f0f0f] text-white text-sm font-medium hover:bg-gray-900 transition-colors border border-gray-600 uppercase tracking-wide"
           >
             ⏹ Reset
           </button>
-          <div className="ml-auto text-xs text-zinc-500 dark:text-zinc-400">
+          <div className="ml-auto text-xs text-gray-400 uppercase tracking-wide">
             Speed: {speed}x
           </div>
         </div>
@@ -202,17 +202,17 @@ export function InvestigationPlayback({
       {/* Investigation Steps */}
       <div className="space-y-3">
         {visibleSteps.length === 0 && (
-          <div className="bg-white dark:bg-zinc-900 rounded-lg shadow-sm p-12 border border-zinc-200 dark:border-zinc-800 text-center">
+          <div className="bg-[#0f0f0f] p-12 border-2 border-gray-700 text-center">
             <div className="text-6xl mb-4">{investigation.emoji}</div>
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">
+            <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
               Ready to Watch Agent Investigation
             </h3>
-            <p className="text-zinc-600 dark:text-zinc-400 mb-6">
+            <p className="text-gray-400 mb-6">
               Click "Play" to see how the agent investigates this market step-by-step
             </p>
             <button
               onClick={handlePlay}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="px-6 py-3 bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors border border-blue-500 uppercase tracking-wide"
             >
               ▶ Start Investigation
             </button>
@@ -222,7 +222,7 @@ export function InvestigationPlayback({
         {visibleSteps.map((step, index) => (
           <div
             key={index}
-            className={`bg-white dark:bg-zinc-900 rounded-lg shadow-sm p-4 border animate-fadeIn ${getStepBgColor(
+            className={`p-4 animate-fadeIn ${getStepBgColor(
               step.type
             )}`}
           >
@@ -230,14 +230,14 @@ export function InvestigationPlayback({
               <div className="text-2xl flex-shrink-0">{getStepIcon(step.type)}</div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-zinc-600 dark:text-zinc-300">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-gray-300">
                     {step.type.replace('_', ' ')}
                   </span>
-                  <span className="text-xs text-zinc-400 dark:text-zinc-500">
+                  <span className="text-xs text-gray-400">
                     Step {index + 1}
                   </span>
                 </div>
-                <div className="text-sm text-zinc-900 dark:text-white whitespace-pre-wrap">
+                <div className="text-sm text-white whitespace-pre-wrap">
                   {step.content}
                 </div>
 
@@ -281,10 +281,10 @@ export function InvestigationPlayback({
 
                 {step.data && step.type !== 'conclusion' && (
                   <details className="mt-3">
-                    <summary className="text-xs font-medium text-zinc-500 dark:text-zinc-400 cursor-pointer hover:text-zinc-700 dark:hover:text-zinc-200">
+                    <summary className="text-xs font-medium text-gray-400 cursor-pointer hover:text-gray-300 uppercase tracking-wide">
                       View raw data
                     </summary>
-                    <pre className="mt-2 p-3 bg-zinc-100 dark:bg-zinc-800 rounded text-xs overflow-x-auto">
+                    <pre className="mt-2 p-3 bg-black border border-gray-700 text-xs overflow-x-auto text-gray-300">
                       {JSON.stringify(step.data, null, 2)}
                     </pre>
                   </details>

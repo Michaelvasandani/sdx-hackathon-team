@@ -93,50 +93,50 @@ export function MarketTable({ markets }: MarketTableProps) {
       <div className="flex gap-2 flex-wrap">
         <button
           onClick={() => setFilterRisk('all')}
-          className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+          className={`px-3 py-1.5 text-sm font-medium transition-colors uppercase tracking-wide border ${
             filterRisk === 'all'
-              ? 'bg-zinc-900 text-white dark:bg-white dark:text-black'
-              : 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100'
+              ? 'bg-white text-black border-white'
+              : 'bg-[#0f0f0f] text-gray-300 border-gray-600 hover:border-gray-400'
           }`}
         >
           All ({markets.length})
         </button>
         <button
           onClick={() => setFilterRisk('safe')}
-          className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+          className={`px-3 py-1.5 text-sm font-medium transition-colors uppercase tracking-wide border ${
             filterRisk === 'safe'
-              ? 'bg-green-600 text-white'
-              : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+              ? 'bg-green-600 text-white border-green-500'
+              : 'bg-[#0f0f0f] text-green-400 border-green-600 hover:bg-green-900/20'
           }`}
         >
           Safe ({riskCounts.safe})
         </button>
         <button
           onClick={() => setFilterRisk('moderate')}
-          className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+          className={`px-3 py-1.5 text-sm font-medium transition-colors uppercase tracking-wide border ${
             filterRisk === 'moderate'
-              ? 'bg-yellow-600 text-white'
-              : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+              ? 'bg-yellow-600 text-white border-yellow-500'
+              : 'bg-[#0f0f0f] text-yellow-400 border-yellow-600 hover:bg-yellow-900/20'
           }`}
         >
           Moderate ({riskCounts.moderate})
         </button>
         <button
           onClick={() => setFilterRisk('high')}
-          className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+          className={`px-3 py-1.5 text-sm font-medium transition-colors uppercase tracking-wide border ${
             filterRisk === 'high'
-              ? 'bg-orange-600 text-white'
-              : 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400'
+              ? 'bg-orange-600 text-white border-orange-500'
+              : 'bg-[#0f0f0f] text-orange-400 border-orange-600 hover:bg-orange-900/20'
           }`}
         >
           High ({riskCounts.high})
         </button>
         <button
           onClick={() => setFilterRisk('critical')}
-          className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+          className={`px-3 py-1.5 text-sm font-medium transition-colors uppercase tracking-wide border ${
             filterRisk === 'critical'
-              ? 'bg-red-600 text-white'
-              : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+              ? 'bg-red-600 text-white border-red-500'
+              : 'bg-[#0f0f0f] text-red-400 border-red-600 hover:bg-red-900/20'
           }`}
         >
           Critical ({riskCounts.critical})
@@ -144,60 +144,60 @@ export function MarketTable({ markets }: MarketTableProps) {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto border border-zinc-200 dark:border-zinc-800 rounded-lg">
+      <div className="overflow-x-auto border-2 border-gray-700">
         <table className="w-full">
-          <thead className="bg-zinc-50 dark:bg-zinc-900/50 border-b border-zinc-200 dark:border-zinc-800">
+          <thead className="bg-[#0f0f0f] border-b-2 border-gray-700">
             <tr>
               <th
-                className="px-4 py-3 text-left text-sm font-semibold text-zinc-900 dark:text-zinc-100 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                className="px-4 py-3 text-left text-sm font-semibold text-white uppercase tracking-wide cursor-pointer hover:bg-gray-800"
                 onClick={() => handleSort('ticker')}
               >
                 Market {sortKey === 'ticker' && (sortDirection === 'asc' ? '↑' : '↓')}
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              <th className="px-4 py-3 text-left text-sm font-semibold text-white uppercase tracking-wide">
                 Category
               </th>
               <th
-                className="px-4 py-3 text-left text-sm font-semibold text-zinc-900 dark:text-zinc-100 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                className="px-4 py-3 text-left text-sm font-semibold text-white uppercase tracking-wide cursor-pointer hover:bg-gray-800"
                 onClick={() => handleSort('score')}
               >
                 Score {sortKey === 'score' && (sortDirection === 'asc' ? '↑' : '↓')}
               </th>
               <th
-                className="px-4 py-3 text-left text-sm font-semibold text-zinc-900 dark:text-zinc-100 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                className="px-4 py-3 text-left text-sm font-semibold text-white uppercase tracking-wide cursor-pointer hover:bg-gray-800"
                 onClick={() => handleSort('risk')}
               >
                 Risk {sortKey === 'risk' && (sortDirection === 'asc' ? '↑' : '↓')}
               </th>
               <th
-                className="px-4 py-3 text-left text-sm font-semibold text-zinc-900 dark:text-zinc-100 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                className="px-4 py-3 text-left text-sm font-semibold text-white uppercase tracking-wide cursor-pointer hover:bg-gray-800"
                 onClick={() => handleSort('alerts')}
               >
                 Alerts {sortKey === 'alerts' && (sortDirection === 'asc' ? '↑' : '↓')}
               </th>
-              <th className="px-4 py-3 text-right text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              <th className="px-4 py-3 text-right text-sm font-semibold text-white uppercase tracking-wide">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+          <tbody className="divide-y divide-gray-800">
             {filteredMarkets.map((market) => (
               <tr
                 key={market.ticker}
-                className="hover:bg-zinc-50 dark:hover:bg-zinc-900/30 transition-colors"
+                className="hover:bg-gray-900 transition-colors"
               >
                 <td className="px-4 py-3">
                   <div>
-                    <div className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    <div className="font-semibold text-white uppercase tracking-wide">
                       {market.ticker}
                     </div>
-                    <div className="text-sm text-zinc-500 dark:text-zinc-400">
+                    <div className="text-sm text-gray-400">
                       {market.name}
                     </div>
                   </div>
                 </td>
                 <td className="px-4 py-3">
-                  <span className="text-sm text-zinc-600 dark:text-zinc-400 capitalize">
+                  <span className="text-sm text-gray-300 capitalize">
                     {market.category}
                   </span>
                 </td>
@@ -212,11 +212,11 @@ export function MarketTable({ markets }: MarketTableProps) {
                 </td>
                 <td className="px-4 py-3">
                   {market.alerts.length > 0 ? (
-                    <span className="text-sm font-medium text-red-600 dark:text-red-400">
+                    <span className="text-sm font-medium text-red-400">
                       {market.alerts.length} alert{market.alerts.length > 1 ? 's' : ''}
                     </span>
                   ) : (
-                    <span className="text-sm text-zinc-400 dark:text-zinc-600">
+                    <span className="text-sm text-gray-600">
                       None
                     </span>
                   )}
@@ -224,7 +224,7 @@ export function MarketTable({ markets }: MarketTableProps) {
                 <td className="px-4 py-3 text-right">
                   <Link
                     href={`/market/${market.ticker}`}
-                    className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                    className="text-sm font-medium text-blue-400 hover:text-blue-300 uppercase tracking-wide"
                   >
                     View Details →
                   </Link>
@@ -236,7 +236,7 @@ export function MarketTable({ markets }: MarketTableProps) {
       </div>
 
       {filteredMarkets.length === 0 && (
-        <div className="text-center py-12 text-zinc-500 dark:text-zinc-400">
+        <div className="text-center py-12 text-gray-400 uppercase tracking-wide">
           No markets found with the selected filter.
         </div>
       )}

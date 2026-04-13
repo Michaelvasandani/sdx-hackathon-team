@@ -82,14 +82,14 @@ export function FraudSignalChart({ signals }: FraudSignalChartProps) {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-3 shadow-lg">
-          <p className="font-semibold text-zinc-900 dark:text-white">
+        <div className="bg-[#0f0f0f] border-2 border-gray-600 p-3 shadow-lg">
+          <p className="font-semibold text-white uppercase tracking-wide">
             {data.name.replace('\n', ' ')}
           </p>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-gray-300">
             Score: <span className="font-bold">{data.value.toFixed(1)}</span>/100
           </p>
-          <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
+          <p className="text-xs text-gray-300 mt-1">
             Weight: {data.weight}% | Threshold: {data.threshold}
           </p>
         </div>
@@ -105,18 +105,18 @@ export function FraudSignalChart({ signals }: FraudSignalChartProps) {
           data={data}
           margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" className="dark:stroke-zinc-700" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#404040" />
           <XAxis
             dataKey="name"
-            tick={{ fill: '#71717a', fontSize: 11 }}
+            tick={{ fill: '#ffffff', fontSize: 11 }}
             interval={0}
             angle={0}
             textAnchor="middle"
           />
           <YAxis
-            tick={{ fill: '#71717a', fontSize: 12 }}
+            tick={{ fill: '#ffffff', fontSize: 12 }}
             domain={[0, 100]}
-            label={{ value: 'Risk Score (0-100)', angle: -90, position: 'insideLeft', fill: '#71717a' }}
+            label={{ value: 'Risk Score (0-100)', angle: -90, position: 'insideLeft', fill: '#ffffff' }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
@@ -126,19 +126,19 @@ export function FraudSignalChart({ signals }: FraudSignalChartProps) {
               <div className="flex justify-center gap-4 text-xs mb-2">
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded bg-green-500"></div>
-                  <span className="text-zinc-600 dark:text-zinc-400">0-10: Safe</span>
+                  <span className="text-white">0-10: Safe</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded bg-yellow-500"></div>
-                  <span className="text-zinc-600 dark:text-zinc-400">10-25: Low</span>
+                  <span className="text-white">10-25: Low</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded bg-orange-500"></div>
-                  <span className="text-zinc-600 dark:text-zinc-400">25-50: Medium</span>
+                  <span className="text-white">25-50: Medium</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded bg-red-500"></div>
-                  <span className="text-zinc-600 dark:text-zinc-400">50+: High</span>
+                  <span className="text-white">50+: High</span>
                 </div>
               </div>
             )}

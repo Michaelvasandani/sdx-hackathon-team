@@ -76,14 +76,14 @@ export function MarketDistributionChart({ markets }: MarketDistributionChartProp
     if (active && payload && payload.length) {
       const data = payload[0];
       return (
-        <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-3 shadow-lg">
-          <p className="font-semibold text-zinc-900 dark:text-white">
+        <div className="bg-[#0f0f0f] border-2 border-gray-600 p-3 shadow-lg">
+          <p className="font-semibold text-white uppercase tracking-wide">
             {data.name || data.payload.range}
           </p>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-gray-300">
             Markets: <span className="font-bold">{data.value || data.payload.count}</span>
           </p>
-          <p className="text-xs text-zinc-500 dark:text-zinc-500">
+          <p className="text-xs text-gray-400">
             {((( data.value || data.payload.count) / markets.length) * 100).toFixed(1)}% of total
           </p>
         </div>
@@ -96,7 +96,7 @@ export function MarketDistributionChart({ markets }: MarketDistributionChartProp
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Bar Chart - Score Distribution */}
       <div>
-        <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mb-4">
+        <h3 className="text-sm font-semibold text-white mb-4 uppercase tracking-wide">
           Score Distribution
         </h3>
         <div className="h-72">
@@ -105,15 +105,15 @@ export function MarketDistributionChart({ markets }: MarketDistributionChartProp
               data={distributionData}
               margin={{ top: 10, right: 30, left: 0, bottom: 20 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" className="dark:stroke-zinc-700" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#404040" />
               <XAxis
                 dataKey="range"
-                tick={{ fill: '#71717a', fontSize: 11 }}
-                label={{ value: 'Integrity Score Range', position: 'insideBottom', offset: -10, fill: '#71717a' }}
+                tick={{ fill: '#e5e5e5', fontSize: 11 }}
+                label={{ value: 'Integrity Score Range', position: 'insideBottom', offset: -10, fill: '#9ca3af' }}
               />
               <YAxis
-                tick={{ fill: '#71717a', fontSize: 12 }}
-                label={{ value: 'Number of Markets', angle: -90, position: 'insideLeft', fill: '#71717a' }}
+                tick={{ fill: '#e5e5e5', fontSize: 12 }}
+                label={{ value: 'Number of Markets', angle: -90, position: 'insideLeft', fill: '#9ca3af' }}
               />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="count" radius={[4, 4, 0, 0]}>
@@ -128,7 +128,7 @@ export function MarketDistributionChart({ markets }: MarketDistributionChartProp
 
       {/* Pie Chart - Risk Level Distribution */}
       <div>
-        <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mb-4">
+        <h3 className="text-sm font-semibold text-white mb-4 uppercase tracking-wide">
           Risk Level Distribution
         </h3>
         <div className="h-72">
@@ -139,7 +139,12 @@ export function MarketDistributionChart({ markets }: MarketDistributionChartProp
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={(entry) => `${entry.name} (${entry.value})`}
+                label={(entry) => ({
+                  value: `${entry.name} (${entry.value})`,
+                  fill: '#ffffff',
+                  fontSize: 12,
+                  fontWeight: 600,
+                })}
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
@@ -153,7 +158,7 @@ export function MarketDistributionChart({ markets }: MarketDistributionChartProp
                 verticalAlign="bottom"
                 height={36}
                 formatter={(value, entry: any) => (
-                  <span className="text-sm text-zinc-700 dark:text-zinc-300">
+                  <span className="text-sm text-gray-300">
                     {value}: {entry.payload.value} markets
                   </span>
                 )}

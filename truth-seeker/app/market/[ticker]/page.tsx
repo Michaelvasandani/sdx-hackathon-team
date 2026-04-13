@@ -120,10 +120,10 @@ export default function MarketDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          <p className="mt-4 text-zinc-600 dark:text-zinc-400">Loading market data...</p>
+          <p className="mt-4 text-gray-400 uppercase tracking-wide">Loading market data...</p>
         </div>
       </div>
     );
@@ -131,15 +131,15 @@ export default function MarketDetailPage() {
 
   if (error || !market) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-black p-8">
+      <div className="min-h-screen bg-[#0a0a0a] p-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-6">
-            <Link href="/" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/" className="text-blue-400 hover:text-blue-300 uppercase tracking-wide">
               ← Back to Dashboard
             </Link>
           </div>
-          <div className="p-8 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-            <h3 className="text-lg font-semibold text-red-800 dark:text-red-400">
+          <div className="p-8 bg-[#0f0f0f] border-2 border-red-600">
+            <h3 className="text-lg font-semibold text-red-400 uppercase tracking-wide">
               {error || 'Market not found'}
             </h3>
           </div>
@@ -152,24 +152,24 @@ export default function MarketDetailPage() {
   const signals = integrityScore.signals;
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black">
+    <div className="min-h-screen bg-[#0a0a0a]">
       {/* Header */}
-      <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+      <header className="border-b-2 border-red-600 bg-[#0f0f0f]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="mb-4">
-            <Link href="/" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/" className="text-sm text-blue-400 hover:text-blue-300 uppercase tracking-wide">
               ← Back to Dashboard
             </Link>
           </div>
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
+              <h1 className="text-3xl font-bold text-white uppercase tracking-tight">
                 {market.ticker}
               </h1>
-              <p className="mt-1 text-lg text-zinc-600 dark:text-zinc-400">
+              <p className="mt-1 text-lg text-gray-400">
                 {market.name}
               </p>
-              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-500 capitalize">
+              <p className="mt-1 text-sm text-gray-400 capitalize">
                 {market.category}
               </p>
             </div>
@@ -190,8 +190,8 @@ export default function MarketDetailPage() {
         {/* Visualization Section */}
         <div className="mb-6 space-y-6">
           {/* Integrity Trend Chart */}
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
+          <div className="bg-[#0f0f0f] border-2 border-gray-700 p-6">
+            <h2 className="text-lg font-semibold text-white mb-4 uppercase tracking-wide">
               📈 Integrity Score Trend (24 Hours)
             </h2>
             <IntegrityTrendChart
@@ -202,8 +202,8 @@ export default function MarketDetailPage() {
           </div>
 
           {/* Fraud Signals Chart */}
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
+          <div className="bg-[#0f0f0f] border-2 border-gray-700 p-6">
+            <h2 className="text-lg font-semibold text-white mb-4 uppercase tracking-wide">
               📊 Fraud Detection Signal Breakdown
             </h2>
             <FraudSignalChart signals={signals} />
@@ -211,8 +211,8 @@ export default function MarketDetailPage() {
 
           {/* Divergence Chart (if marketData is available) */}
           {marketData && (
-            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
+            <div className="bg-[#0f0f0f] border-2 border-gray-700 p-6">
+              <h2 className="text-lg font-semibold text-white mb-4 uppercase tracking-wide">
                 🔍 Price vs Index Divergence Analysis
               </h2>
               <DivergenceChart
@@ -227,8 +227,8 @@ export default function MarketDetailPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Fraud Signals */}
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
+          <div className="bg-[#0f0f0f] border-2 border-gray-700 p-6">
+            <h2 className="text-lg font-semibold text-white mb-4 uppercase tracking-wide">
               Fraud Detection Signals
             </h2>
             <div className="space-y-4">
@@ -279,8 +279,8 @@ export default function MarketDetailPage() {
           </div>
 
           {/* Active Alerts */}
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
+          <div className="bg-[#0f0f0f] border-2 border-gray-700 p-6">
+            <h2 className="text-lg font-semibold text-white mb-4 uppercase tracking-wide">
               Active Alerts ({alerts.length})
             </h2>
             {alerts.length > 0 ? (
@@ -290,9 +290,9 @@ export default function MarketDetailPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-zinc-500 dark:text-zinc-400">
+              <div className="text-center py-12 text-gray-400">
                 <p className="text-5xl mb-4">✓</p>
-                <p>No fraud alerts detected</p>
+                <p className="uppercase tracking-wide">No fraud alerts detected</p>
                 <p className="text-sm mt-2">This market appears healthy</p>
               </div>
             )}
@@ -300,15 +300,15 @@ export default function MarketDetailPage() {
         </div>
 
         {/* Score Breakdown */}
-        <div className="mt-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
+        <div className="mt-6 bg-[#0f0f0f] border-2 border-gray-700 p-6">
+          <h2 className="text-lg font-semibold text-white mb-4 uppercase tracking-wide">
             Score Calculation
           </h2>
-          <div className="text-sm text-zinc-600 dark:text-zinc-400 space-y-2">
+          <div className="text-sm text-gray-300 space-y-2">
             <p>
               The integrity score is calculated using a weighted average of all fraud detection signals:
             </p>
-            <div className="bg-zinc-50 dark:bg-zinc-800 rounded p-4 font-mono text-xs">
+            <div className="bg-black border border-gray-700 p-4 font-mono text-xs text-gray-300">
               <div>score = 100 - weighted_penalty</div>
               <div className="mt-2">where weighted_penalty =</div>
               <div className="ml-4">
@@ -320,9 +320,9 @@ export default function MarketDetailPage() {
                 correlation_break × 5%
               </div>
             </div>
-            <div className="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+            <div className="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-700">
               <div>
-                <div className="text-xs uppercase text-zinc-500 dark:text-zinc-500">Risk Levels</div>
+                <div className="text-xs uppercase text-gray-400 tracking-wide">Risk Levels</div>
                 <div className="mt-2 space-y-1 text-xs">
                   <div>80-100: Safe</div>
                   <div>50-79: Moderate</div>
@@ -331,12 +331,12 @@ export default function MarketDetailPage() {
                 </div>
               </div>
               <div className="col-span-3">
-                <div className="text-xs uppercase text-zinc-500 dark:text-zinc-500">Current Score</div>
+                <div className="text-xs uppercase text-gray-400 tracking-wide">Current Score</div>
                 <div className="mt-2">
-                  <div className="text-4xl font-bold text-zinc-900 dark:text-white">
+                  <div className="text-4xl font-bold text-white">
                     {integrityScore.score}
                   </div>
-                  <div className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+                  <div className="text-sm text-gray-400 mt-1">
                     {integrityScore.risk_level === 'safe' && 'Market appears healthy with no significant fraud signals'}
                     {integrityScore.risk_level === 'moderate' && 'Some fraud signals detected, monitor closely'}
                     {integrityScore.risk_level === 'high' && 'Multiple fraud signals detected, high risk'}
@@ -387,24 +387,24 @@ function SignalItem({
     : value > 50 ? 'high' : value > 25 ? 'medium' : value > 10 ? 'low' : 'safe';
 
   const colorClass = {
-    safe: 'bg-green-100 dark:bg-green-900/20',
-    low: 'bg-yellow-100 dark:bg-yellow-900/20',
-    medium: 'bg-orange-100 dark:bg-orange-900/20',
-    high: 'bg-red-100 dark:bg-red-900/20',
+    safe: 'bg-black border-2 border-green-600',
+    low: 'bg-black border-2 border-yellow-600',
+    medium: 'bg-black border-2 border-orange-600',
+    high: 'bg-black border-2 border-red-600',
   }[severity];
 
   return (
-    <div className={`p-4 rounded-lg ${colorClass}`}>
+    <div className={`p-4 ${colorClass}`}>
       <div className="flex items-start justify-between mb-2">
         <div>
-          <div className="font-medium text-zinc-900 dark:text-white">{label}</div>
-          <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{description}</div>
+          <div className="font-medium text-white uppercase tracking-wide">{label}</div>
+          <div className="text-xs text-gray-400 mt-1">{description}</div>
         </div>
         <div className="text-right">
-          <div className="text-lg font-bold text-zinc-900 dark:text-white">
+          <div className="text-lg font-bold text-white">
             {boolean ? (value > 0 ? 'YES' : 'NO') : value.toFixed(1) + unit}
           </div>
-          <div className="text-xs text-zinc-500 dark:text-zinc-400">{weight}% weight</div>
+          <div className="text-xs text-gray-400">{weight}% weight</div>
         </div>
       </div>
     </div>
@@ -413,24 +413,24 @@ function SignalItem({
 
 function AlertCard({ alert }: { alert: FraudAlert }) {
   const severityColor = {
-    critical: 'border-red-500 bg-red-50 dark:bg-red-900/20',
-    high: 'border-orange-500 bg-orange-50 dark:bg-orange-900/20',
-    medium: 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20',
-    low: 'border-blue-500 bg-blue-50 dark:bg-blue-900/20',
-  }[alert.severity] || 'border-zinc-300 bg-zinc-50 dark:bg-zinc-800';
+    critical: 'border-l-4 border-red-600 bg-black',
+    high: 'border-l-4 border-orange-600 bg-black',
+    medium: 'border-l-4 border-yellow-600 bg-black',
+    low: 'border-l-4 border-blue-600 bg-black',
+  }[alert.severity] || 'border-l-4 border-gray-600 bg-black';
 
   return (
-    <div className={`border-l-4 rounded-r-lg p-4 ${severityColor}`}>
+    <div className={`p-4 ${severityColor}`}>
       <div className="flex items-start justify-between mb-2">
-        <div className="font-semibold text-zinc-900 dark:text-white capitalize">
+        <div className="font-semibold text-white capitalize uppercase tracking-wide">
           {alert.type.replace(/_/g, ' ')}
         </div>
-        <div className="text-xs uppercase font-medium text-zinc-500 dark:text-zinc-400">
+        <div className="text-xs uppercase font-medium text-gray-400 tracking-wide">
           {alert.severity}
         </div>
       </div>
-      <p className="text-sm text-zinc-700 dark:text-zinc-300 mb-2">{alert.description}</p>
-      <div className="text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="text-sm text-gray-300 mb-2">{alert.description}</p>
+      <div className="text-xs text-gray-400">
         Confidence: {alert.confidence.toFixed(1)}%
       </div>
     </div>

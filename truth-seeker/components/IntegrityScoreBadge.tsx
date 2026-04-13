@@ -18,22 +18,14 @@ export function IntegrityScoreBadge({ score, riskLevel, size = 'md' }: Integrity
   };
 
   const colorClasses = {
-    safe: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-    moderate: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
-    high: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400',
-    critical: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-  };
-
-  const emoji = {
-    safe: '✓',
-    moderate: '⚠',
-    high: '⚠',
-    critical: '🚨',
+    safe: 'bg-[#0f0f0f] text-green-400 border border-green-600',
+    moderate: 'bg-[#0f0f0f] text-yellow-400 border border-yellow-600',
+    high: 'bg-[#0f0f0f] text-orange-400 border border-orange-600',
+    critical: 'bg-[#0f0f0f] text-red-400 border border-red-600',
   };
 
   return (
-    <div className={`inline-flex items-center gap-1.5 rounded-full font-semibold ${sizeClasses[size]} ${colorClasses[riskLevel]}`}>
-      <span>{emoji[riskLevel]}</span>
+    <div className={`inline-flex items-center gap-1.5 font-semibold uppercase tracking-wide ${sizeClasses[size]} ${colorClasses[riskLevel]}`}>
       <span>{score}</span>
     </div>
   );
@@ -52,15 +44,22 @@ export function RiskLevelBadge({ riskLevel, size = 'md' }: RiskLevelBadgeProps) 
   };
 
   const colorClasses = {
-    safe: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-    moderate: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
-    high: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400',
-    critical: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+    safe: 'bg-[#0f0f0f] text-green-400 border border-green-600',
+    moderate: 'bg-[#0f0f0f] text-yellow-400 border border-yellow-600',
+    high: 'bg-[#0f0f0f] text-orange-400 border border-orange-600',
+    critical: 'bg-[#0f0f0f] text-red-400 border border-red-600',
+  };
+
+  const labels = {
+    safe: 'SAFE',
+    moderate: 'WATCH',
+    high: 'HIGH',
+    critical: 'AVOID',
   };
 
   return (
-    <span className={`inline-block rounded-full font-medium uppercase ${sizeClasses[size]} ${colorClasses[riskLevel]}`}>
-      {riskLevel}
+    <span className={`inline-block font-medium uppercase tracking-wide ${sizeClasses[size]} ${colorClasses[riskLevel]}`}>
+      {labels[riskLevel]}
     </span>
   );
 }

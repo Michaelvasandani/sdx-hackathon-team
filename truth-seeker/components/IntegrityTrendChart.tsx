@@ -75,18 +75,18 @@ export function IntegrityTrendChart({
         data.score >= 30 ? 'High' : 'Critical';
 
       return (
-        <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-3 shadow-lg">
-          <p className="font-semibold text-zinc-900 dark:text-white mb-2">
+        <div className="bg-[#0f0f0f] border-2 border-gray-600 p-3 shadow-lg">
+          <p className="font-semibold text-white mb-2 uppercase tracking-wide">
             {data.time}
           </p>
           <div className="space-y-1">
             <div className="flex items-center justify-between gap-6">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">Integrity Score:</span>
-              <span className="text-lg font-bold text-zinc-900 dark:text-white">
+              <span className="text-sm text-gray-300">Integrity Score:</span>
+              <span className="text-lg font-bold text-white">
                 {data.score}
               </span>
             </div>
-            <div className="text-xs text-zinc-500 dark:text-zinc-500">
+            <div className="text-xs text-gray-300">
               Risk Level: {riskLevel}
             </div>
           </div>
@@ -104,18 +104,18 @@ export function IntegrityTrendChart({
   return (
     <div className="w-full">
       {/* Current Status Banner */}
-      <div className={`mb-4 p-3 rounded-lg ${
-        riskLevel === 'safe' ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800' :
-        riskLevel === 'moderate' ? 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800' :
-        riskLevel === 'high' ? 'bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800' :
-        'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'
+      <div className={`mb-4 p-3 ${
+        riskLevel === 'safe' ? 'bg-[#0f0f0f] border-2 border-green-600' :
+        riskLevel === 'moderate' ? 'bg-[#0f0f0f] border-2 border-yellow-600' :
+        riskLevel === 'high' ? 'bg-[#0f0f0f] border-2 border-orange-600' :
+        'bg-[#0f0f0f] border-2 border-red-600'
       }`}>
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-zinc-900 dark:text-white">
+            <p className="text-sm font-semibold text-white">
               Current Integrity Score: {currentScore}
             </p>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
+            <p className="text-xs text-gray-300 mt-1">
               {riskLevel === 'safe' && 'Market appears healthy with minimal fraud signals'}
               {riskLevel === 'moderate' && 'Some concerning signals detected, monitor closely'}
               {riskLevel === 'high' && 'Multiple fraud indicators present, trade with caution'}
@@ -123,10 +123,10 @@ export function IntegrityTrendChart({
             </p>
           </div>
           <div className={`text-3xl font-bold ${
-            riskLevel === 'safe' ? 'text-green-600 dark:text-green-400' :
-            riskLevel === 'moderate' ? 'text-yellow-600 dark:text-yellow-400' :
-            riskLevel === 'high' ? 'text-orange-600 dark:text-orange-400' :
-            'text-red-600 dark:text-red-400'
+            riskLevel === 'safe' ? 'text-green-400' :
+            riskLevel === 'moderate' ? 'text-yellow-400' :
+            riskLevel === 'high' ? 'text-orange-400' :
+            'text-red-400'
           }`}>
             {currentScore}
           </div>
@@ -146,20 +146,20 @@ export function IntegrityTrendChart({
                 <stop offset="95%" stopColor={getStrokeColor(riskLevel)} stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" className="dark:stroke-zinc-700" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#404040" />
             <XAxis
               dataKey="time"
-              tick={{ fill: '#71717a', fontSize: 11 }}
+              tick={{ fill: '#ffffff', fontSize: 11 }}
               interval={3}
             />
             <YAxis
               domain={[Math.floor(minScore / 10) * 10, Math.ceil(maxScore / 10) * 10]}
-              tick={{ fill: '#71717a', fontSize: 12 }}
+              tick={{ fill: '#ffffff', fontSize: 12 }}
               label={{
                 value: 'Integrity Score',
                 angle: -90,
                 position: 'insideLeft',
-                fill: '#71717a',
+                fill: '#ffffff',
               }}
             />
             <Tooltip content={<CustomTooltip />} />
@@ -199,24 +199,24 @@ export function IntegrityTrendChart({
 
       {/* Summary Stats */}
       <div className="mt-4 grid grid-cols-4 gap-3">
-        <div className="p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
-          <div className="text-xs text-zinc-500 dark:text-zinc-400">Current</div>
-          <div className="text-xl font-bold text-zinc-900 dark:text-white mt-1">{currentScore}</div>
+        <div className="p-3 bg-black border border-gray-700">
+          <div className="text-xs text-gray-300">Current</div>
+          <div className="text-xl font-bold text-white mt-1">{currentScore}</div>
         </div>
-        <div className="p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
-          <div className="text-xs text-zinc-500 dark:text-zinc-400">24h High</div>
-          <div className="text-xl font-bold text-zinc-900 dark:text-white mt-1">{Math.max(...scores)}</div>
+        <div className="p-3 bg-black border border-gray-700">
+          <div className="text-xs text-gray-300">24h High</div>
+          <div className="text-xl font-bold text-white mt-1">{Math.max(...scores)}</div>
         </div>
-        <div className="p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
-          <div className="text-xs text-zinc-500 dark:text-zinc-400">24h Low</div>
-          <div className="text-xl font-bold text-zinc-900 dark:text-white mt-1">{Math.min(...scores)}</div>
+        <div className="p-3 bg-black border border-gray-700">
+          <div className="text-xs text-gray-300">24h Low</div>
+          <div className="text-xl font-bold text-white mt-1">{Math.min(...scores)}</div>
         </div>
-        <div className="p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
-          <div className="text-xs text-zinc-500 dark:text-zinc-400">24h Change</div>
+        <div className="p-3 bg-black border border-gray-700">
+          <div className="text-xs text-gray-300">24h Change</div>
           <div className={`text-xl font-bold mt-1 ${
             data[data.length - 1].score > data[0].score
-              ? 'text-green-600 dark:text-green-400'
-              : 'text-red-600 dark:text-red-400'
+              ? 'text-green-400'
+              : 'text-red-400'
           }`}>
             {data[data.length - 1].score > data[0].score ? '+' : ''}
             {data[data.length - 1].score - data[0].score}
