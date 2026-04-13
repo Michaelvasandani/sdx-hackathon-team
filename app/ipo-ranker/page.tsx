@@ -82,7 +82,7 @@ export default async function IpoRankerPage() {
         {/* Header */}
         <div className="mb-6">
           <div className="mb-1 flex items-baseline gap-3">
-            <h1 className="text-2xl font-black tracking-tight">Vibe IPO Ranker</h1>
+            <h1 className="text-2xl font-black tracking-tight">IPO Ranker</h1>
             <span className="text-xs text-zinc-500">
               Updated {new Date(updatedAt).toLocaleTimeString()}
             </span>

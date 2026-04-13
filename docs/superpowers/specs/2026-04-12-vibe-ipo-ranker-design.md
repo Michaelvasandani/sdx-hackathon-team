@@ -1,4 +1,4 @@
-# Vibe IPO Ranker — Design Spec
+# IPO Ranker — Design Spec
 
 **Date:** 2026-04-12
 **Status:** Approved
@@ -139,7 +139,7 @@ Score breakdown: `velocity 60% · volume 20% · discovery 20%`
 
 ### Header
 
-- Title: "Vibe IPO Ranker"
+- Title: "IPO Ranker"
 - Subtitle: "Emerging trends with low attention but high growth velocity"
 - Last updated timestamp
 - Stage legend row (PRE-IPO / SERIES B / SERIES A / SEED)

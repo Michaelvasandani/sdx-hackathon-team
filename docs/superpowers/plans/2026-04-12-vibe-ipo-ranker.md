@@ -1,4 +1,4 @@
-# Vibe IPO Ranker Implementation Plan
+# IPO Ranker Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -380,7 +380,7 @@ export default async function IpoRankerPage() {
         {/* Header */}
         <div className="mb-6">
           <div className="mb-1 flex items-baseline gap-3">
-            <h1 className="text-2xl font-black tracking-tight">Vibe IPO Ranker</h1>
+            <h1 className="text-2xl font-black tracking-tight">IPO Ranker</h1>
             <span className="text-xs text-zinc-500">
               Updated {new Date(updatedAt).toLocaleTimeString()}
             </span>
